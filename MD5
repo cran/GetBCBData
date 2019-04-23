@@ -1,0 +1,17 @@
+0dd8a44635541f690f7addfb3053da44 *DESCRIPTION
+064a429da068de083b7ff4b31d13c943 *NAMESPACE
+b99581c87af14069bb299d406f474819 *NEWS.md
+f3268f06e3fc9ad6a6d9811d0fe62af3 *R/gbcbd_get_series.R
+0d1fcb88a2334a294fad8ab4942a14ad *R/gbcbd_utils.R
+5db483a027a64725dfc57f21f1191797 *README.md
+e0ee4718c8f340a031ee392b60b03334 *build/vignette.rds
+e176eea722f5be69ac660c89e017fbeb *inst/doc/GetBCBData-vignette.R
+c375f013a4c064bdf22fa13b85664c19 *inst/doc/GetBCBData-vignette.Rmd
+7b056269ad62ff51fa92742bd74214f1 *inst/doc/GetBCBData-vignette.html
+bd132a558d20193d6c1981cdca83e442 *man/gbcbd_get_JSON_fct.Rd
+ce8057035573e095966d37575cd759c5 *man/gbcbd_get_default_cache_folder.Rd
+c42e45332ad827ed5eeb2558a8ac8e62 *man/gbcbd_get_series.Rd
+9e0c60882fc7a3629f9297481b038f2d *man/gbcbd_get_single_series.Rd
+1a7f5374338157677c178a1c634c3ccd *man/gbcbd_message.Rd
+65c481e64258f71c51471f446920af37 *man/gbcbd_test_internet.Rd
+c375f013a4c064bdf22fa13b85664c19 *vignettes/GetBCBData-vignette.Rmd
