@@ -4,10 +4,16 @@
 \alias{gbcbd_get_single_series}
 \title{Gets a single series from BCB-SGS (internal use)}
 \usage{
-gbcbd_get_single_series(id, series.name = paste0("SGS ", id),
-  first.date = Sys.Date() - 360, last.date = Sys.Date(),
-  format.data = "long", be.quiet = FALSE, use.memoise = TRUE,
-  cache.path = gbcbd_get_default_cache_folder())
+gbcbd_get_single_series(
+  id,
+  series.name = paste0("SGS ", id),
+  first.date = Sys.Date() - 360,
+  last.date = Sys.Date(),
+  format.data = "long",
+  be.quiet = FALSE,
+  use.memoise = TRUE,
+  cache.path = gbcbd_get_default_cache_folder()
+)
 }
 \arguments{
 \item{id}{Id of series from BCB-SGS}
@@ -33,5 +39,5 @@ A dataframe for a single series
 This function should not be called directly. Its a helper for gbcbd_get_series
 }
 \examples{
-df <- gbcbd_get_single_series(id = 1)
+df <- gbcbd_get_single_series(id = 1, cache.path = tempdir())
 }

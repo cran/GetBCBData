@@ -4,8 +4,10 @@
 \alias{gbcbd_get_JSON_fct}
 \title{Function for switching functions depending on using cache or not}
 \usage{
-gbcbd_get_JSON_fct(use.memoise = TRUE,
-  cache.path = gbcbd_get_default_cache_folder())
+gbcbd_get_JSON_fct(
+  use.memoise = TRUE,
+  cache.path = gbcbd_get_default_cache_folder()
+)
 }
 \arguments{
 \item{use.memoise}{Logical. Sets the use of caching system - TRUE (default) or FALSE}
@@ -20,5 +22,5 @@ Internal use. Simply switches a function given a choice for using memoise.
 }
 \examples{
 
-fct_get_JSON <- gbcbd_get_JSON_fct()
+fct_get_JSON <- gbcbd_get_JSON_fct(cache.path = tempdir())
 }

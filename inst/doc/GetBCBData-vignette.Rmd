@@ -25,9 +25,10 @@ Let's have a look at unemployment rates around the world. After searching for th
 
 Now, lets download the data with `GetBCBData`:
 
-```{r, message=FALSE}
+```{r, message=FALSE, eval=FALSE}
 library(GetBCBData)
-library(tidyverse)
+library(dplyr)
+library(ggplot2)
 
 my.countries <- c('Germany', 'Canada', 'USA', 
                   'France', 'Italy', 'Japan')
@@ -40,7 +41,6 @@ df.bcb <- gbcbd_get_series(id = my.ids ,
                        first.date = '2000-01-01',
                        last.date = Sys.Date(),
                        format.data = 'long',
-                       #series.name = 'ABC',
                        use.memoise = TRUE, 
                        cache.path = tempdir(), # use tempdir for cache folder
                        do.parallel = FALSE)

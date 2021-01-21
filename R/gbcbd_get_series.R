@@ -19,7 +19,7 @@
 #' @examples
 #'
 #' my.id <- c('Taxa de juros - Selic' = 11)
-#' df <- gbcbd_get_series(my.id)
+#' df <- gbcbd_get_series(my.id, cache.path = tempdir())
 gbcbd_get_series <- function(id,
                              first.date = Sys.Date() - 10*365,
                              last.date = Sys.Date(),
@@ -148,7 +148,7 @@ gbcbd_get_series <- function(id,
 #' @export
 #'
 #' @examples
-#' df <- gbcbd_get_single_series(id = 1)
+#' df <- gbcbd_get_single_series(id = 1, cache.path = tempdir())
 gbcbd_get_single_series <- function(id,
                                     series.name = paste0('SGS ', id),
                                     first.date = Sys.Date()-360,
@@ -182,7 +182,8 @@ gbcbd_get_single_series <- function(id,
     gbcbd_message(' from Online API ', be.quiet)
   }
 
-  cache.db = memoise::cache_filesystem(cache.path)
+  #cache.db = memoise::cache_filesystem(cache.path)
+  cache.db = cache.path
   fct_JSON <- gbcbd_get_JSON_fct(use.memoise,
                                  cache.db)
 
