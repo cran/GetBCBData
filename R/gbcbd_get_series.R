@@ -31,12 +31,12 @@ gbcbd_get_series <- function(id,
 
   # check if arguments make sense
   first.date <- as.Date(first.date)
-  if (class(first.date) != 'Date') {
+  if (!methods::is(first.date, 'Date')) {
     stop('Argument first.date is not a valid date!')
   }
 
   last.date <- as.Date(last.date)
-  if (class(last.date) != 'Date') {
+  if (!methods::is(last.date, 'Date')) {
     stop('Argument last.date is not a valid date!')
   }
 
@@ -91,9 +91,9 @@ gbcbd_get_series <- function(id,
     available.cores <- future::availableCores()
 
     gbcbd_message(paste0('\nRunning parallel GetBCBData with ', used.workers, ' cores (',
-               available.cores, ' available)',
-               '\n\n'),
-               be.quiet = be.quiet)
+                         available.cores, ' available)',
+                         '\n\n'),
+                  be.quiet = be.quiet)
 
     # test if plan() was called
     msg <- utils::capture.output(future::plan())
@@ -140,15 +140,7 @@ gbcbd_get_series <- function(id,
 #'
 #' This function should not be called directly. Its a helper for gbcbd_get_series
 #'
-#' @inheritParams gbcbd_get_series
-#' @param id Id of series from BCB-SGS
-#' @param series.name Name of time series
-#'
-#' @return A dataframe for a single series
-#' @export
-#'
-#' @examples
-#' df <- gbcbd_get_single_series(id = 1, cache.path = tempdir())
+#'@noRd
 gbcbd_get_single_series <- function(id,
                                     series.name = paste0('SGS ', id),
                                     first.date = Sys.Date()-360,
@@ -185,24 +177,24 @@ gbcbd_get_single_series <- function(id,
   #cache.db = memoise::cache_filesystem(cache.path)
   cache.db = cache.path
   fct_JSON <- gbcbd_get_JSON_fct(use.memoise,
-                                 cache.db)
+                                   cache.db)
 
   df <- NULL
   try({
-    utils::capture.output(
-    df <- fct_JSON(my.url)
-    )
+    utils::capture.output({
+      df <- fct_JSON(my.url)
+    })
   })
 
   if (is.null(df)) {
     df <- dplyr::tibble(ref.date = NA,
-                         value = NA,
-                         id.num = id,
-                         series.name = series.name)
+                        value = NA,
+                        id.num = id,
+                        series.name = series.name)
 
     warning(paste0('\n\t Error in fetching data\n'))
     warning(paste0('\n\tId ', id, ' does not seem available at BCB-SGS. Check it again at : ',
-               '<http://www.bcb.gov.br/?sgs>'))
+                   '<http://www.bcb.gov.br/?sgs>'))
     return(df)
 
   } else {

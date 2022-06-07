@@ -2,11 +2,12 @@
 
 The Central Bank of Brazil (BCB) offers access to its SGS system (sistema gerenciador de series temporais) with a official API available [here](http://www.bcb.gov.br/?sgs).
 
-Package GetBCB offers a R interface to the API and many other advantages:
+Package GetBCBData offers a R interface to the API and many other advantages:
 
 - Use of a caching system with package `memoise` to speed up repeated requests of data;
 - User can utilize all cores of the machine (parallel computing) when fetching a large batch of time series;
 - Error handling internally. Even if requested series does not exist, the function will still return all results.
+
 
 ## Installation
 
