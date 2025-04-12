@@ -6,7 +6,7 @@
 \usage{
 gbcbd_get_series(
   id,
-  first.date = Sys.Date() - 10 * 365,
+  first.date = Sys.Date() - 5 * 365,
   last.date = Sys.Date(),
   format.data = "long",
   be.quiet = FALSE,
@@ -17,7 +17,7 @@ gbcbd_get_series(
 }
 \arguments{
 \item{id}{Id of time series. The name of the vector sets the name of the series in the output (e.g i.d <- c('SELIC' = 11)).
-You can search for ids in the official BCB-SGS webpage <http://www.bcb.gov.br/?sgs>}
+You can search for ids in the official BCB-SGS webpage <https://www.bcb.gov.br/?sgs>}
 
 \item{first.date}{First date of time series}
 
@@ -38,10 +38,12 @@ A dataframe with requested datasets
 }
 \description{
 Using BCB's oficial API at <https://www.bcb.gov.br/>, this function will download data for a specific set of ids and dates.
-The main advantage is the use of caching and parallel computing for fast operations. You can search for available series at <http://www.bcb.gov.br/?sgs>
+The main advantage is the use of caching and parallel computing for fast operations. You can search for available series at <https://www.bcb.gov.br/?sgs>
 }
 \examples{
 
-my.id <- c('Taxa de juros - Selic' = 11)
+\dontrun{
+my.id <- c('Selic Rate' = 11)
 df <- gbcbd_get_series(my.id, cache.path = tempdir())
+}
 }

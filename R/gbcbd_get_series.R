@@ -1,10 +1,10 @@
 #' Imports time series data from BCB-SGS System (Banco Central do Brasil, sistema de series temporais)
 #'
 #' Using BCB's oficial API at <https://www.bcb.gov.br/>, this function will download data for a specific set of ids and dates.
-#' The main advantage is the use of caching and parallel computing for fast operations. You can search for available series at <http://www.bcb.gov.br/?sgs>
+#' The main advantage is the use of caching and parallel computing for fast operations. You can search for available series at <https://www.bcb.gov.br/?sgs>
 #'
 #' @param id Id of time series. The name of the vector sets the name of the series in the output (e.g i.d <- c('SELIC' = 11)).
-#' You can search for ids in the official BCB-SGS webpage <http://www.bcb.gov.br/?sgs>
+#' You can search for ids in the official BCB-SGS webpage <https://www.bcb.gov.br/?sgs>
 #' @param first.date First date of time series
 #' @param last.date Last date of time series
 #' @param format.data The format of the datasets - long (default, series incremented by rows) or wide (series incremented by columns)
@@ -18,10 +18,12 @@
 #'
 #' @examples
 #'
-#' my.id <- c('Taxa de juros - Selic' = 11)
+#' \dontrun{
+#' my.id <- c('Selic Rate' = 11)
 #' df <- gbcbd_get_series(my.id, cache.path = tempdir())
+#' }
 gbcbd_get_series <- function(id,
-                             first.date = Sys.Date() - 10*365,
+                             first.date = Sys.Date() - 5*365,
                              last.date = Sys.Date(),
                              format.data = 'long',
                              be.quiet = FALSE,
@@ -67,6 +69,18 @@ gbcbd_get_series <- function(id,
   #                paste0(paste0(failed.ids, ' (', names(failed.ids), ')'), collapse = ', ')),
   #        '\n\n')
   # }
+
+  # 20250412 check if diff year < 10 (api will block otherwise)
+  diff_years <- as.numeric(last.date - first.date)/365
+
+  if (diff_years >10) {
+    cli::cli_warn(
+      paste0("Since march 2025, the bcb api imposes a restriction of a maximum 10 ",
+      "years of past data. However, this only hold for data with daily frequency.",
+      " If you have asked for a daily series and dont have a return from the request, try ",
+      " adjusting argument first.date. ")
+    )
+  }
 
   #set args
   my.args <- list(id = id,
@@ -150,10 +164,15 @@ gbcbd_get_single_series <- function(id,
                                     use.memoise = TRUE,
                                     cache.path = gbcbd_get_default_cache_folder()) {
 
-  my.url <- sprintf('https://api.bcb.gov.br/dados/serie/bcdata.sgs.%s/dados?formato=json',
-                    id)
+  # old  url
+  #my.url <- sprintf('https://api.bcb.gov.br/dados/serie/bcdata.sgs.%s/dados?formato=json',
+  #                  id)
 
-  my.url <- sprintf(paste0('http://api.bcb.gov.br/dados/serie/bcdata.sgs.',
+  # 20250324 - adding sleep between calls
+  Sys.sleep(1.5)
+
+  # 20250307: new url (with https)
+  my.url <- sprintf(paste0('https://api.bcb.gov.br/dados/serie/bcdata.sgs.',
                            '%s','/dados?formato=json&',
                            'dataInicial=%s&',
                            'dataFinal=%s'),
