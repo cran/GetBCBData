@@ -1,6 +1,13 @@
-## Version 0.9.0  (2025-04-29)
+## Version 0.9.1  (2026-02-02)
+
+- now using parallelly::availableCores() (fixes #12)
+- now using  future::nbrOfWorkers()
+- other code improvements
+ 
+## Version 0.9.0  (2025-04-22)
 
 - added new sequential method for querying with diff_year < 10 years (this fixes #11)
+
 
 ## Version 0.8.0  (2025-03-07)
 
