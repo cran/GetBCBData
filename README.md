@@ -1,6 +1,6 @@
 ## Motivation
 
-The Central Bank of Brazil (BCB) offers access to its SGS system (sistema gerenciador de series temporais) with a official API available [here](http://www.bcb.gov.br/?sgs).
+The Central Bank of Brazil (BCB) offers access to its SGS system (sistema gerenciador de series temporais) with a official API available [here](https://www.bcb.gov.br/?sgs).
 
 Package GetBCBData offers a R interface to the API and many other advantages:
 
@@ -25,31 +25,46 @@ devtools::install_github('msperlin/GetBCBData')
 library(GetBCBData)
 library(tidyverse)
 
-my.countries <- c('Germany', 'Canada', 'USA', 
+my_countries <- c('Germany', 'Canada', 'USA', 
                   'France', 'Italy', 'Japan')
 
-my.ids <- c(3785:3790)
+my_ids <- c(3785:3790)
 
-names(my.ids) <- paste0('Unemp. rate - ', my.countries)
+names(my_ids) <- paste0('Unemp. rate - ', my_countries)
 
-df.bcb <- gbcbd_get_series(id = my.ids ,
-                       first.date = '2000-01-01',
-                       last.date = Sys.Date(),
-                       format.data = 'long',
-                       #series.name = 'ABC',
-                       use.memoise = TRUE, 
-                       cache.path = tempdir(), # use tempdir for cache folder
-                       do.parallel = FALSE)
+df_bcb <- gbcbd_get_series(id = my_ids ,
+                       first_date = '2000-01-01',
+                       last_date = Sys.Date(),
+                       format_data = 'long',
+                       #series_name = 'ABC',
+                       use_memoise = TRUE, 
+                       cache_path = tempdir(), # use tempdir for cache folder
+                       do_parallel = FALSE)
 
-glimpse(df.bcb)
+glimpse(df_bcb)
 
-p <- ggplot(df.bcb, aes(x = ref.date, y = value) ) +
+p <- ggplot(df_bcb, aes(x = ref_date, y = value) ) +
   geom_line() + 
   labs(title = 'Unemploymnent Rates Around the World', 
-       subtitle = paste0(min(df.bcb$ref.date), ' to ', max(df.bcb$ref.date)),
-       x = '', y = 'Percentage*100') + facet_wrap(~series.name)
+       subtitle = paste0(min(df_bcb$ref_date), ' to ', max(df_bcb$ref_date)),
+       x = '', y = 'Percentage*100') + facet_wrap(~series_name)
   
 
 print(p)
+```
+
+## Searching for series ids
+
+If you don't know the id of a series, use `gbcbd_search_series()` to search the
+BCB-SGS catalog by text:
+
+```
+df_search <- gbcbd_search_series('selic')
+print(df_search)
+
+# use the first match in gbcbd_get_series()
+my_id <- df_search$id[1]
+names(my_id) <- df_search$series_name[1]
+df_bcb <- gbcbd_get_series(my_id)
 ```
 
